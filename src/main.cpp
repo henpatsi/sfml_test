@@ -43,6 +43,9 @@ int main()
 		game.update(time_passed.asSeconds());
 
         window.clear();
+
+		game.render(window);
+
         window.display();
     }
 }

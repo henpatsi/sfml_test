@@ -17,5 +17,6 @@ class Game
 	public:
 
 		void update(float delta);
+		void render(sf::RenderWindow& window);
 		void input(int code, bool pressed);
 };

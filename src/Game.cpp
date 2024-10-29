@@ -5,9 +5,14 @@ void Game::update(float delta)
 	m_character.update(delta);
 }
 
+void Game::render(sf::RenderWindow& window)
+{
+	m_character.render(window);
+}
+
 void Game::input(int code, bool pressed)
 {
-	std::cout << "Pressed key: " << code << std::endl;
+	// std::cout << "Pressed key: " << code << std::endl;
 
 	if (code == m_moveRight.getCode())
 	{
