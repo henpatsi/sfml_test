@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-#define SPRITE_SHEET_PATH "assets/Prototype_Character/Prototype_Character.png"
+#define SPRITE_SHEET_PATH "assets/character/character_spritesheet.png"
 #define SPRITE_SCALE 4
 #define SPRITE_SIZE 32
 
