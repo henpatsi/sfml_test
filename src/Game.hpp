@@ -17,6 +17,7 @@ class Game
 	InputKey m_moveLeft = InputKey("move_left", sf::Keyboard::Scan::A);
 	InputKey m_moveUp = InputKey("move_up", sf::Keyboard::Scan::W);
 	InputKey m_moveDown = InputKey("move_down", sf::Keyboard::Scan::S);
+	InputKey m_sprint = InputKey("sprint", sf::Keyboard::Scan::LShift);
 
 	// FPS
 

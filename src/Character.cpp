@@ -10,11 +10,44 @@ Character::Character(void)
 
 	m_sprite.setTexture(m_texture);
 	m_sprite.setScale(SPRITE_SCALE, SPRITE_SCALE);
+
+	if (!m_font.loadFromFile(STAMINA_FONT_PATH))
+	{
+		std::cout << "Failed to load stamina font" << std::endl;
+		exit(1);
+	}
+
+	m_staminaText.setFont(m_font);
+	m_staminaText.setCharacterSize(24);
+	m_staminaText.setFillColor(sf::Color::Green);
+	m_staminaText.setPosition(200, 0);
 }
 
 void Character::update(float delta)
 {
-	m_position += sf::Vector2f(m_horizontal_input * m_move_speed * delta, m_vertical_input * m_move_speed * delta);
+	float current_speed = m_move_speed;
+
+	if (m_sprinting)
+	{
+		if (m_stamina > 0)
+		{
+			m_stamina -= m_stamina_on_sprint * delta;
+			current_speed *= m_sprint_modifier;
+		}
+		else
+		{
+			m_sprinting = false;
+		}
+	}
+	
+	if (!m_sprinting && m_stamina < 100)
+	{
+		m_stamina += m_stamina_regen * delta;
+	}
+
+	m_staminaText.setString("Stamina: " + std::to_string((int)m_stamina));
+
+	m_position += sf::Vector2f(m_horizontal_input * current_speed * delta, m_vertical_input * current_speed * delta);
 
 	animateSprite(delta);
 }
@@ -76,4 +109,5 @@ void Character::render(sf::RenderWindow& window)
 	m_sprite.setTextureRect(m_animation_position);
 	m_sprite.setPosition(m_position);
 	window.draw(m_sprite);
+	window.draw(m_staminaText);
 }

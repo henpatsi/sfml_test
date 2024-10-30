@@ -56,6 +56,8 @@ void Game::input(int code, bool pressed)
 		else if (!pressed && m_moveDown.isPressed())
 			m_character.addVerticalInput(-1);
 	}
+	else if (code == m_sprint.getCode())
+		m_character.setSprinting(pressed);
 
 	if (code == m_moveRight.getCode())
 		m_moveRight.setPressed(pressed);
@@ -65,4 +67,6 @@ void Game::input(int code, bool pressed)
 		m_moveUp.setPressed(pressed);
 	else if (code == m_moveDown.getCode())
 		m_moveDown.setPressed(pressed);
+	else if (code == m_sprint.getCode())
+		m_character.setSprinting(pressed);
 }

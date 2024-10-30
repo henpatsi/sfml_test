@@ -7,16 +7,29 @@
 #define SPRITE_SCALE 4
 #define SPRITE_SIZE 32
 
+#define STAMINA_FONT_PATH "assets/fonts/Atop-R99O3.ttf"
+
 class Character
 {
 	// Movement
-
 	int m_move_speed = 100;
+
+	float m_stamina = 100;
+	float m_stamina_regen = 10;
+
+	bool m_sprinting = false;
+	float m_sprint_modifier = 2;
+	float m_stamina_on_sprint = 50;
 
 	int m_horizontal_input = 0;
 	int m_vertical_input = 0;
 
 	sf::Vector2f m_position = {0, 0};
+
+	// Text
+
+	sf::Font m_font;
+	sf::Text m_staminaText;
 
 	// Sprite
 
@@ -65,6 +78,7 @@ class Character
 
 		void addHorizontalInput(int x) { m_horizontal_input += x; }
 		void addVerticalInput(int y) { m_vertical_input += y; }
+		void setSprinting(bool sprinting) { m_sprinting = sprinting; }
 
 		void update(float delta);
 		void render(sf::RenderWindow& window);
