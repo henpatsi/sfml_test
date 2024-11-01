@@ -5,8 +5,8 @@
 
 int main()
 {
-    auto window = sf::RenderWindow({1280u, 720u}, "SFML Test");
-    window.setFramerateLimit(144);
+	auto window = sf::RenderWindow({1280u, 720u}, "SFML Test");
+	window.setFramerateLimit(144);
 
 	sf::Clock clock;
 	Game game;
@@ -39,14 +39,14 @@ int main()
 				default:
 					break;
 			}
-        }
+		}
 
 		game.update(time_passed.asSeconds());
 
-        window.clear();
+		window.clear();
 
 		game.render(window);
 
-        window.display();
-    }
+		window.display();
+	}
 }

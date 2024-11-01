@@ -24,4 +24,9 @@ void Game::render(sf::RenderWindow& window)
 	m_character.render(window);
 
 	window.draw(m_FPSText);
+
+	if (m_inputHandler.isKeyPressed("close_game"))
+	{
+		window.close();
+	}
 }

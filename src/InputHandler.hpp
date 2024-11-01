@@ -19,6 +19,7 @@ class InputHandler
 		{sf::Keyboard::Scan::W, {"move_up"}},
 		{sf::Keyboard::Scan::S, {"move_down"}},
 		{sf::Keyboard::Scan::LShift, {"sprint"}},
+		{sf::Keyboard::Scan::K, {"attack"}},
 		{sf::Keyboard::Scan::Escape, {"close_game"}},
 	};
 

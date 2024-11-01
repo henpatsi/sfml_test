@@ -54,6 +54,8 @@ void Character::update(float delta)
 	animateSprite(delta);
 }
 
+// Input
+
 void Character::handleInput()
 {
 	m_horizontal_input = 0;
@@ -62,18 +64,22 @@ void Character::handleInput()
 	if (m_inputHandler.isKeyPressed("move_right"))
 	{
 		m_horizontal_input += 1;
+		m_direction = Direction::RIGHT;
 	}
 	if (m_inputHandler.isKeyPressed("move_left"))
 	{
 		m_horizontal_input += -1;
+		m_direction = Direction::LEFT;
 	}
 	if (m_inputHandler.isKeyPressed("move_up"))
 	{
 		m_vertical_input += -1;
+		m_direction = Direction::UP;
 	}
 	if (m_inputHandler.isKeyPressed("move_down"))
 	{
 		m_vertical_input += 1;
+		m_direction = Direction::DOWN;
 	}
 
 	if (m_inputHandler.isKeyPressed("sprint"))
@@ -86,27 +92,39 @@ void Character::handleInput()
 	}
 }
 
+// Animation
+
 void Character::animateSprite(float delta)
 {
+	if (m_direction == Direction::LEFT || m_horizontal_input == -1)
+	{
+		flipSprite(true);
+	}
+	else
+	{
+		flipSprite(false);
+	}
+
 	// Idle
 	if (m_horizontal_input == 0 && m_vertical_input == 0)
 	{
-		setAnimationPositions(m_idle_animation_positions);
+		if (m_direction == Direction::DOWN)
+		{
+			setAnimationPositions(m_idle_down_animation_positions);
+		}
+		else if (m_direction == Direction::UP)
+		{
+			setAnimationPositions(m_idle_up_animation_positions);
+		}
+		else
+		{
+			setAnimationPositions(m_idle_side_animation_positions);
+		}
 	}
 
 	// Horizontal movement
 	if (m_horizontal_input != 0)
 	{
-		if (m_horizontal_input == 1)
-		{
-			m_sprite.setScale(SPRITE_SCALE, SPRITE_SCALE);
-			m_sprite.setOrigin(0, 0);
-		}
-		else if (m_horizontal_input == -1)
-		{
-			m_sprite.setScale(-SPRITE_SCALE, SPRITE_SCALE);
-			m_sprite.setOrigin(SPRITE_SIZE, 0);
-		}
 		setAnimationPositions(m_walk_side_animation_positions);
 	}
 	// Vertical movement
@@ -128,6 +146,20 @@ void Character::animateSprite(float delta)
 	m_animation_frame = (m_animation_frame + 1) % m_animation_positions.size();
 }
 
+void Character::flipSprite(bool flipped = false)
+{
+	if (flipped)
+	{
+		m_sprite.setOrigin(SPRITE_SIZE, 0);
+		m_sprite.setScale(-SPRITE_SCALE, SPRITE_SCALE);
+	}
+	else
+	{
+		m_sprite.setOrigin(0, 0);
+		m_sprite.setScale(SPRITE_SCALE, SPRITE_SCALE);
+	}
+}
+
 void Character::setAnimationPositions(std::vector<sf::IntRect> &positions)
 {
 	if (m_animation_positions != positions)
@@ -137,6 +169,8 @@ void Character::setAnimationPositions(std::vector<sf::IntRect> &positions)
 	}
 	m_animation_positions = positions;
 }
+
+// Render
 
 void Character::render(sf::RenderWindow& window)
 {

@@ -15,6 +15,10 @@ class Game
 	sf::Font m_font;
 	sf::Text m_FPSText;
 
+	// Input
+
+	InputHandler& m_inputHandler = InputHandler::getInstance();
+
 	public:
 		Game(void);
 
