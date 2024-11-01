@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "InputHandler.hpp"
+#include "Attack.hpp"
 
 #define SPRITE_SHEET_PATH "assets/character/character_spritesheet.png"
 #define SPRITE_SCALE 4
@@ -24,20 +25,32 @@ class Character
 	InputHandler& m_inputHandler = InputHandler::getInstance();
 
 	// Movement
-	int m_move_speed = 100;
+	int m_moveSpeed = 100;
 
 	float m_stamina = 100;
-	float m_stamina_regen = 10;
+	float m_staminaRegen = 10;
 
 	bool m_sprinting = false;
-	float m_sprint_modifier = 2;
-	float m_stamina_on_sprint = 50;
+	float m_sprintModifier = 2;
+	float m_staminaOnSprint = 50;
 
-	int m_horizontal_input = 0;
-	int m_vertical_input = 0;
+	int m_horizontalInput = 0;
+	int m_verticalInput = 0;
 	int m_direction = Direction::DOWN;
 
 	sf::Vector2f m_position = {0, 0};
+
+	void move(float delta);
+
+	// Attack
+
+	bool m_canAttack = true;
+	bool m_attacking = false;
+	int m_attackShapeOffset = 10;
+
+	std::vector<Attack*> m_attacks;
+
+	void attack(float delta);
 
 	// Text
 
@@ -51,42 +64,42 @@ class Character
 
 	// Animation
 
-	int m_animation_frame = 0;
-	std::vector<sf::IntRect> m_animation_positions;
-	sf::IntRect m_animation_position = {0, 0, SPRITE_SIZE, SPRITE_SIZE};
-	float m_animation_timer = 0.0f;
-	float m_animation_speed = 0.2f;
+	int m_animationFrame = 0;
+	std::vector<sf::IntRect> m_animationPositions;
+	sf::IntRect m_animationPosition = {0, 0, SPRITE_SIZE, SPRITE_SIZE};
+	float m_animationTimer = 0.0f;
+	float m_animationSpeed = 0.2f;
 
-	std::vector<sf::IntRect> m_idle_down_animation_positions = {
+	std::vector<sf::IntRect> m_idleDownAnimationPositions = {
 		sf::IntRect(0, 0, SPRITE_SIZE, SPRITE_SIZE),
 		sf::IntRect(SPRITE_SIZE, 0, SPRITE_SIZE, SPRITE_SIZE),
 	};
 
-	std::vector<sf::IntRect> m_idle_side_animation_positions = {
+	std::vector<sf::IntRect> m_idleSideAnimationPositions = {
 		sf::IntRect(0, SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE),
 		sf::IntRect(SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE),
 	};
 
-	std::vector<sf::IntRect> m_idle_up_animation_positions = {
+	std::vector<sf::IntRect> m_idleUpAnimationPositions = {
 		sf::IntRect(0, SPRITE_SIZE * 2, SPRITE_SIZE, SPRITE_SIZE),
 		sf::IntRect(SPRITE_SIZE, SPRITE_SIZE * 2, SPRITE_SIZE, SPRITE_SIZE),
 	};
 
-	std::vector<sf::IntRect> m_walk_side_animation_positions = {
+	std::vector<sf::IntRect> m_walkSideAnimationPositions = {
 		sf::IntRect(0, SPRITE_SIZE * 4, SPRITE_SIZE, SPRITE_SIZE),
 		sf::IntRect(SPRITE_SIZE, SPRITE_SIZE * 4, SPRITE_SIZE, SPRITE_SIZE),
 		sf::IntRect(SPRITE_SIZE * 2, SPRITE_SIZE * 4, SPRITE_SIZE, SPRITE_SIZE),
 		sf::IntRect(SPRITE_SIZE * 3, SPRITE_SIZE * 4, SPRITE_SIZE, SPRITE_SIZE),
 	};
 
-	std::vector<sf::IntRect> m_walk_down_animation_positions = {
+	std::vector<sf::IntRect> m_walkDownAnimationPositions = {
 		sf::IntRect(0, SPRITE_SIZE * 3, SPRITE_SIZE, SPRITE_SIZE),
 		sf::IntRect(SPRITE_SIZE, SPRITE_SIZE * 3, SPRITE_SIZE, SPRITE_SIZE),
 		sf::IntRect(SPRITE_SIZE * 2, SPRITE_SIZE * 3, SPRITE_SIZE, SPRITE_SIZE),
 		sf::IntRect(SPRITE_SIZE * 3, SPRITE_SIZE * 3, SPRITE_SIZE, SPRITE_SIZE),
 	};
 
-	std::vector<sf::IntRect> m_walk_up_animation_positions = {
+	std::vector<sf::IntRect> m_walkUpAnimationPositions = {
 		sf::IntRect(0, SPRITE_SIZE * 5, SPRITE_SIZE, SPRITE_SIZE),
 		sf::IntRect(SPRITE_SIZE, SPRITE_SIZE * 5, SPRITE_SIZE, SPRITE_SIZE),
 		sf::IntRect(SPRITE_SIZE * 2, SPRITE_SIZE * 5, SPRITE_SIZE, SPRITE_SIZE),

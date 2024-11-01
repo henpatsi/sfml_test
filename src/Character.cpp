@@ -8,15 +8,16 @@ Character::Character()
 		exit(1);
 	}
 
+	// Initialize sprite
 	m_sprite.setTexture(m_texture);
 	m_sprite.setScale(SPRITE_SCALE, SPRITE_SCALE);
 
+	// Initialize stamina text
 	if (!m_font.loadFromFile(STAMINA_FONT_PATH))
 	{
 		std::cout << "Failed to load stamina font" << std::endl;
 		exit(1);
 	}
-
 	m_staminaText.setFont(m_font);
 	m_staminaText.setCharacterSize(24);
 	m_staminaText.setFillColor(sf::Color::Green);
@@ -27,14 +28,22 @@ void Character::update(float delta)
 {
 	handleInput();
 
-	float current_speed = m_move_speed;
+	move(delta);
+	attack(delta);
+
+	animateSprite(delta);
+}
+
+void Character::move(float delta)
+{
+	float current_speed = m_moveSpeed;
 
 	if (m_sprinting)
 	{
 		if (m_stamina > 0)
 		{
-			m_stamina -= m_stamina_on_sprint * delta;
-			current_speed *= m_sprint_modifier;
+			m_stamina -= m_staminaOnSprint * delta;
+			current_speed *= m_sprintModifier;
 		}
 		else
 		{
@@ -44,41 +53,63 @@ void Character::update(float delta)
 	
 	if (!m_sprinting && m_stamina < 100)
 	{
-		m_stamina += m_stamina_regen * delta;
+		m_stamina += m_staminaRegen * delta;
 	}
 
 	m_staminaText.setString("Stamina: " + std::to_string((int)m_stamina));
 
-	m_position += sf::Vector2f(m_horizontal_input * current_speed * delta, m_vertical_input * current_speed * delta);
+	m_position += sf::Vector2f(m_horizontalInput * current_speed * delta, m_verticalInput * current_speed * delta);
+}
 
-	animateSprite(delta);
+void Character::attack(float delta)
+{
+	for (auto it = m_attacks.begin(); it != m_attacks.end();)
+	{
+		if ((*it)->shouldDestroy())
+		{
+			delete *it;
+			it = m_attacks.erase(it);
+		}
+		else
+		{
+			(*it)->update(delta);
+			it++;
+		}
+	}
+
+	if (!m_attacking)
+		return;
+
+	m_attacks.push_back(new Attack(m_position));
+
+	m_attacking = false;
 }
 
 // Input
 
 void Character::handleInput()
 {
-	m_horizontal_input = 0;
-	m_vertical_input = 0;
+	m_horizontalInput = 0;
+	m_verticalInput = 0;
 
 	if (m_inputHandler.isKeyPressed("move_right"))
 	{
-		m_horizontal_input += 1;
+		m_horizontalInput += 1;
 		m_direction = Direction::RIGHT;
 	}
 	if (m_inputHandler.isKeyPressed("move_left"))
 	{
-		m_horizontal_input += -1;
+		m_horizontalInput += -1;
 		m_direction = Direction::LEFT;
 	}
 	if (m_inputHandler.isKeyPressed("move_up"))
 	{
-		m_vertical_input += -1;
+		m_verticalInput += -1;
 		m_direction = Direction::UP;
 	}
 	if (m_inputHandler.isKeyPressed("move_down"))
 	{
-		m_vertical_input += 1;
+		m_verticalInput += 1;
 		m_direction = Direction::DOWN;
 	}
 
@@ -90,13 +121,26 @@ void Character::handleInput()
 	{
 		m_sprinting = false;
 	}
+
+	if (m_inputHandler.isKeyPressed("attack"))
+	{
+		if (m_canAttack)
+		{
+			m_canAttack = false;
+			m_attacking = true;
+		}
+	}
+	else
+	{
+		m_canAttack = true;
+	}
 }
 
 // Animation
 
 void Character::animateSprite(float delta)
 {
-	if (m_direction == Direction::LEFT || m_horizontal_input == -1)
+	if (m_direction == Direction::LEFT || m_horizontalInput == -1)
 	{
 		flipSprite(true);
 	}
@@ -106,44 +150,44 @@ void Character::animateSprite(float delta)
 	}
 
 	// Idle
-	if (m_horizontal_input == 0 && m_vertical_input == 0)
+	if (m_horizontalInput == 0 && m_verticalInput == 0)
 	{
 		if (m_direction == Direction::DOWN)
 		{
-			setAnimationPositions(m_idle_down_animation_positions);
+			setAnimationPositions(m_idleDownAnimationPositions);
 		}
 		else if (m_direction == Direction::UP)
 		{
-			setAnimationPositions(m_idle_up_animation_positions);
+			setAnimationPositions(m_idleUpAnimationPositions);
 		}
 		else
 		{
-			setAnimationPositions(m_idle_side_animation_positions);
+			setAnimationPositions(m_idleSideAnimationPositions);
 		}
 	}
 
 	// Horizontal movement
-	if (m_horizontal_input != 0)
+	if (m_horizontalInput != 0)
 	{
-		setAnimationPositions(m_walk_side_animation_positions);
+		setAnimationPositions(m_walkSideAnimationPositions);
 	}
 	// Vertical movement
-	else if (m_vertical_input == -1)
+	else if (m_verticalInput == -1)
 	{
-		setAnimationPositions(m_walk_up_animation_positions);
+		setAnimationPositions(m_walkUpAnimationPositions);
 	}
-	else if (m_vertical_input == 1)
+	else if (m_verticalInput == 1)
 	{
-		setAnimationPositions(m_walk_down_animation_positions);
+		setAnimationPositions(m_walkDownAnimationPositions);
 	}
 
-	m_animation_timer += delta;
-	if (m_animation_timer < m_animation_speed)
+	m_animationTimer += delta;
+	if (m_animationTimer < m_animationSpeed)
 		return;
-	m_animation_timer = 0.0f;
+	m_animationTimer = 0.0f;
 
-	m_animation_position = m_animation_positions[m_animation_frame];
-	m_animation_frame = (m_animation_frame + 1) % m_animation_positions.size();
+	m_animationPosition = m_animationPositions[m_animationFrame];
+	m_animationFrame = (m_animationFrame + 1) % m_animationPositions.size();
 }
 
 void Character::flipSprite(bool flipped = false)
@@ -162,20 +206,26 @@ void Character::flipSprite(bool flipped = false)
 
 void Character::setAnimationPositions(std::vector<sf::IntRect> &positions)
 {
-	if (m_animation_positions != positions)
+	if (m_animationPositions != positions)
 	{
-		m_animation_frame = 0;
-		m_animation_timer = m_animation_speed;
+		m_animationFrame = 0;
+		m_animationTimer = m_animationSpeed;
 	}
-	m_animation_positions = positions;
+	m_animationPositions = positions;
 }
 
 // Render
 
 void Character::render(sf::RenderWindow& window)
 {
-	m_sprite.setTextureRect(m_animation_position);
+	m_sprite.setTextureRect(m_animationPosition);
 	m_sprite.setPosition(m_position);
+	
 	window.draw(m_sprite);
 	window.draw(m_staminaText);
+
+	for (Attack* attack : m_attacks)
+	{
+		attack->render(window);
+	}
 }
