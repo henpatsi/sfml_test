@@ -59,24 +59,24 @@ void Character::handleInput()
 	m_horizontal_input = 0;
 	m_vertical_input = 0;
 
-	if (g_input.isKeyPressed("move_right"))
+	if (m_inputHandler.isKeyPressed("move_right"))
 	{
 		m_horizontal_input += 1;
 	}
-	if (g_input.isKeyPressed("move_left"))
+	if (m_inputHandler.isKeyPressed("move_left"))
 	{
 		m_horizontal_input += -1;
 	}
-	if (g_input.isKeyPressed("move_up"))
+	if (m_inputHandler.isKeyPressed("move_up"))
 	{
 		m_vertical_input += -1;
 	}
-	if (g_input.isKeyPressed("move_down"))
+	if (m_inputHandler.isKeyPressed("move_down"))
 	{
 		m_vertical_input += 1;
 	}
 
-	if (g_input.isKeyPressed("sprint"))
+	if (m_inputHandler.isKeyPressed("sprint"))
 	{
 		m_sprinting = true;
 	}

@@ -3,11 +3,14 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 #include <list>
+#include <string>
+#include <iostream>
 
 #include "InputKey.hpp"
 
 class InputHandler
 {
+	static InputHandler* instance;
 
 	std::map<int, std::list<std::string>> m_keyMap
 	{
@@ -19,18 +22,20 @@ class InputHandler
 		{sf::Keyboard::Scan::Escape, {"close_game"}},
 	};
 
-	// TODO just make this automatically generated based on keyMap
-	// std::map<std::string, InputKey> m_keyStates {
-	// 	{"move_right", InputKey("move_right", sf::Keyboard::Scan::D)},
-	// 	{"move_left", InputKey("move_left", sf::Keyboard::Scan::A)},
-	// 	{"move_up", InputKey("move_up", sf::Keyboard::Scan::W)},
-	// 	{"move_down", InputKey("move_down", sf::Keyboard::Scan::S)},
-	// 	{"sprint", InputKey("sprint", sf::Keyboard::Scan::LShift)},
-	// 	{"close_game", InputKey("close_game", sf::Keyboard::Scan::Escape)},
-	// };
+	std::map<std::string, InputKey> m_keyStates;
 
 	public:
-		InputHandler(void) {};
+		InputHandler(void);
+		InputHandler(const InputHandler&) = delete;
+		InputHandler& operator=(const InputHandler&) = delete;
+
+		static InputHandler& getInstance()
+		{
+			if (!instance) {
+				instance = new InputHandler();
+			}
+			return *instance;
+		}
 
 		void keyPressed(sf::Event::KeyEvent key);
 		void keyReleased(sf::Event::KeyEvent key);

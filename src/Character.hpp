@@ -4,7 +4,6 @@
 #include <iostream>
 
 #include "InputHandler.hpp"
-#include "Globals.hpp"
 
 #define SPRITE_SHEET_PATH "assets/character/character_spritesheet.png"
 #define SPRITE_SCALE 4
@@ -14,6 +13,8 @@
 
 class Character
 {
+	InputHandler& m_inputHandler = InputHandler::getInstance();
+
 	// Movement
 	int m_move_speed = 100;
 

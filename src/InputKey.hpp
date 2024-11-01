@@ -9,8 +9,8 @@ class InputKey
 	bool m_pressed = false;
 
 	public:
-
-		InputKey(std::string name, int code) : m_name(name), m_code(code) {}
+		InputKey() : m_name(""), m_code(0) {};
+		InputKey(std::string name, int code) : m_name(name), m_code(code) {};
 
 		std::string getName() { return m_name; }
 		int getCode() { return m_code; }

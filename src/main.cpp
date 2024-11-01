@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "Game.hpp"
-#include "Globals.hpp"
 
 int main()
 {
@@ -11,6 +10,7 @@ int main()
 
 	sf::Clock clock;
 	Game game;
+	InputHandler& m_inputHandler = InputHandler::getInstance();
 
     while (window.isOpen())
     {
@@ -27,12 +27,12 @@ int main()
 
 				// key pressed
 				case sf::Event::KeyPressed:
-					g_input.keyPressed(event.key);
+					m_inputHandler.keyPressed(event.key);
 					break;
 				
 				// key released
 				case sf::Event::KeyReleased:
-					g_input.keyReleased(event.key);
+					m_inputHandler.keyReleased(event.key);
 					break;
 
 				// we don't process other types of events
