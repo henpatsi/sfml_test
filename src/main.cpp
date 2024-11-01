@@ -2,6 +2,8 @@
 #include <iostream>
 
 #include "Game.hpp"
+#include "Input.hpp"
+#include "Globals.hpp"
 
 int main()
 {
@@ -26,12 +28,12 @@ int main()
 
 				// key pressed
 				case sf::Event::KeyPressed:
-					game.input(event.key.scancode, true);
+					g_input.keyPressed(event.key);
 					break;
 				
 				// key released
 				case sf::Event::KeyReleased:
-					game.input(event.key.scancode, false);
+					g_input.keyReleased(event.key);
 					break;
 
 				// we don't process other types of events

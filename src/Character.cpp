@@ -1,6 +1,6 @@
 #include "Character.hpp"
 
-Character::Character(void)
+Character::Character()
 {
 	if (!m_texture.loadFromFile(SPRITE_SHEET_PATH))
 	{
@@ -25,6 +25,8 @@ Character::Character(void)
 
 void Character::update(float delta)
 {
+	handleInput();
+
 	float current_speed = m_move_speed;
 
 	if (m_sprinting)
@@ -50,6 +52,38 @@ void Character::update(float delta)
 	m_position += sf::Vector2f(m_horizontal_input * current_speed * delta, m_vertical_input * current_speed * delta);
 
 	animateSprite(delta);
+}
+
+void Character::handleInput()
+{
+	m_horizontal_input = 0;
+	m_vertical_input = 0;
+
+	if (g_input.isKeyPressed("move_right"))
+	{
+		m_horizontal_input += 1;
+	}
+	if (g_input.isKeyPressed("move_left"))
+	{
+		m_horizontal_input += -1;
+	}
+	if (g_input.isKeyPressed("move_up"))
+	{
+		m_vertical_input += -1;
+	}
+	if (g_input.isKeyPressed("move_down"))
+	{
+		m_vertical_input += 1;
+	}
+
+	if (g_input.isKeyPressed("sprint"))
+	{
+		m_sprinting = true;
+	}
+	else
+	{
+		m_sprinting = false;
+	}
 }
 
 void Character::animateSprite(float delta)

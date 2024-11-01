@@ -3,6 +3,9 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+#include "Input.hpp"
+#include "Globals.hpp"
+
 #define SPRITE_SHEET_PATH "assets/character/character_spritesheet.png"
 #define SPRITE_SCALE 4
 #define SPRITE_SIZE 32
@@ -76,10 +79,9 @@ class Character
 	public:
 		Character(void);
 
-		void addHorizontalInput(int x) { m_horizontal_input += x; }
-		void addVerticalInput(int y) { m_vertical_input += y; }
 		void setSprinting(bool sprinting) { m_sprinting = sprinting; }
 
 		void update(float delta);
+		void handleInput();
 		void render(sf::RenderWindow& window);
 };
