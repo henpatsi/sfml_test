@@ -1,5 +1,5 @@
 #pragma once
 
-#include "Input.cpp"
+#include "InputHandler.cpp"
 
-Input g_input;
+InputHandler g_input = InputHandler();

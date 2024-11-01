@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 
 #include "Character.hpp"
-#include "InputKey.hpp"
 
 #define FPS_FONT_PATH "assets/fonts/Atop-R99O3.ttf"
 

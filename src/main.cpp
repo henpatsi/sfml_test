@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "Game.hpp"
-#include "Input.hpp"
 #include "Globals.hpp"
 
 int main()

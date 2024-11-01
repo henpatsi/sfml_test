@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-#include "Input.hpp"
+#include "InputHandler.hpp"
 #include "Globals.hpp"
 
 #define SPRITE_SHEET_PATH "assets/character/character_spritesheet.png"
