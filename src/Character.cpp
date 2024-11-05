@@ -80,7 +80,27 @@ void Character::attack(float delta)
 	if (!m_attacking)
 		return;
 
-	m_attacks.push_back(new Attack(m_position));
+	sf::Vector2f attack_position = m_position;
+	attack_position.x += SPRITE_SIZE * SPRITE_SCALE / 2;
+	attack_position.y += SPRITE_SIZE * SPRITE_SCALE / 2;
+	if (m_direction == Direction::LEFT)
+	{
+		attack_position.x -= m_attackShapeOffset;
+	}
+	else if (m_direction == Direction::RIGHT)
+	{
+		attack_position.x += m_attackShapeOffset;
+	}
+	else if (m_direction == Direction::UP)
+	{
+		attack_position.y -= m_attackShapeOffset;
+	}
+	else if (m_direction == Direction::DOWN)
+	{
+		attack_position.y += m_attackShapeOffset;
+	}
+
+	m_attacks.push_back(new Attack(attack_position));
 
 	m_attacking = false;
 }

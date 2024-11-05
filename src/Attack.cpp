@@ -2,8 +2,8 @@
 
 Attack::Attack(sf::Vector2f position)
 {
-	attackShape.setPosition(position);
-	attackShape.setRadius(10);
+	attackShape.setPosition(position - sf::Vector2f(ATTACK_RADIUS, ATTACK_RADIUS));
+	attackShape.setRadius(ATTACK_RADIUS);
 	attackShape.setFillColor(sf::Color::Red);
 }
 

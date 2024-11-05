@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#define ATTACK_RADIUS 20
+
 class Attack
 {
 	float m_lifetime = 0.5f;

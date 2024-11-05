@@ -46,7 +46,7 @@ class Character
 
 	bool m_canAttack = true;
 	bool m_attacking = false;
-	int m_attackShapeOffset = 10;
+	int m_attackShapeOffset = 40;
 
 	std::vector<Attack*> m_attacks;
 
