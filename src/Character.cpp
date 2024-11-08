@@ -63,6 +63,10 @@ void Character::move(float delta)
 
 void Character::attack(float delta)
 {
+	sf::Vector2f playerCenter = m_position;
+	playerCenter.x += SPRITE_SIZE * SPRITE_SCALE / 2;
+	playerCenter.y += SPRITE_SIZE * SPRITE_SCALE / 2;
+
 	for (auto it = m_attacks.begin(); it != m_attacks.end();)
 	{
 		if ((*it)->shouldDestroy())
@@ -72,7 +76,7 @@ void Character::attack(float delta)
 		}
 		else
 		{
-			(*it)->update(delta, m_position);
+			(*it)->update(delta, playerCenter, m_direction);
 			it++;
 		}
 	}
@@ -80,27 +84,7 @@ void Character::attack(float delta)
 	if (!m_attacking)
 		return;
 
-	sf::Vector2f attackPosition = m_position;
-	attackPosition.x += SPRITE_SIZE * SPRITE_SCALE / 2;
-	attackPosition.y += SPRITE_SIZE * SPRITE_SCALE / 2;
-	if (m_direction == Direction::LEFT)
-	{
-		attackPosition.x -= m_attackShapeOffset;
-	}
-	else if (m_direction == Direction::RIGHT)
-	{
-		attackPosition.x += m_attackShapeOffset;
-	}
-	else if (m_direction == Direction::UP)
-	{
-		attackPosition.y -= m_attackShapeOffset;
-	}
-	else if (m_direction == Direction::DOWN)
-	{
-		attackPosition.y += m_attackShapeOffset;
-	}
-
-	m_attacks.push_back(new Attack(attackPosition, m_position));
+	m_attacks.push_back(new Attack(playerCenter, m_direction));
 
 	m_attacking = false;
 }

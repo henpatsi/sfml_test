@@ -5,20 +5,13 @@
 
 #include "InputHandler.hpp"
 #include "Attack.hpp"
+#include "Enums.hpp"
 
 #define SPRITE_SHEET_PATH "assets/character/character_spritesheet.png"
 #define SPRITE_SCALE 4
 #define SPRITE_SIZE 32
 
 #define STAMINA_FONT_PATH "assets/fonts/Atop-R99O3.ttf"
-
-enum Direction
-{
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT,
-};
 
 class Character
 {
@@ -46,7 +39,6 @@ class Character
 
 	bool m_canAttack = true;
 	bool m_attacking = false;
-	int m_attackShapeOffset = 40;
 
 	std::vector<Attack*> m_attacks;
 

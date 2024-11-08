@@ -1,17 +1,15 @@
 #include "Attack.hpp"
 
-Attack::Attack(sf::Vector2f position, sf::Vector2f parentPosition)
+Attack::Attack(sf::Vector2f parentPosition, int parentDirection)
 {
+	updatePosition(parentPosition, parentDirection);
 	m_attackShape.setRadius(ATTACK_RADIUS);
 	m_attackShape.setFillColor(sf::Color::Red);
-
-	sf::Vector2f globalPosition = position - sf::Vector2f(ATTACK_RADIUS, ATTACK_RADIUS);
-	m_relativePosition = globalPosition - parentPosition;
 }
 
-void Attack::update(float delta, sf::Vector2f parentPosition)
+void Attack::update(float delta, sf::Vector2f parentPosition, int parentDirection)
 {
-	m_attackShape.setPosition(parentPosition + m_relativePosition);
+	updatePosition(parentPosition, parentDirection);
 
 	m_lifetime -= delta;
 
@@ -19,6 +17,31 @@ void Attack::update(float delta, sf::Vector2f parentPosition)
 	{
 		m_destroy = true;
 	}
+}
+
+void Attack::updatePosition(sf::Vector2f parentPosition, int parentDirection)
+{
+	sf::Vector2f globalPosition = parentPosition;
+	globalPosition -= sf::Vector2f(ATTACK_RADIUS, ATTACK_RADIUS);
+
+	if (parentDirection == Direction::LEFT)
+	{
+		globalPosition.x -= m_attackShapeOffset;
+	}
+	else if (parentDirection == Direction::RIGHT)
+	{
+		globalPosition.x += m_attackShapeOffset;
+	}
+	else if (parentDirection == Direction::UP)
+	{
+		globalPosition.y -= m_attackShapeOffset;
+	}
+	else if (parentDirection == Direction::DOWN)
+	{
+		globalPosition.y += m_attackShapeOffset;
+	}
+
+	m_attackShape.setPosition(globalPosition);
 }
 
 void Attack::render(sf::RenderWindow& window)
