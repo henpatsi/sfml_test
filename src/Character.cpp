@@ -11,6 +11,7 @@ Character::Character()
 	// Initialize sprite
 	m_sprite.setTexture(m_texture);
 	m_sprite.setScale(SPRITE_SCALE, SPRITE_SCALE);
+	m_sprite.setOrigin(SPRITE_SIZE / 2, SPRITE_SIZE / 2);
 
 	// Initialize stamina text
 	if (!m_font.loadFromFile(STAMINA_FONT_PATH))
@@ -63,9 +64,6 @@ void Character::move(float delta)
 
 void Character::attack(float delta)
 {
-	sf::Vector2f playerCenter = m_position;
-	playerCenter.x += SPRITE_SIZE * SPRITE_SCALE / 2;
-	playerCenter.y += SPRITE_SIZE * SPRITE_SCALE / 2;
 
 	for (auto it = m_attacks.begin(); it != m_attacks.end();)
 	{
@@ -76,7 +74,7 @@ void Character::attack(float delta)
 		}
 		else
 		{
-			(*it)->update(delta, playerCenter, m_direction);
+			(*it)->update(delta, m_position, m_direction);
 			it++;
 		}
 	}
@@ -84,7 +82,7 @@ void Character::attack(float delta)
 	if (!m_attacking)
 		return;
 
-	m_attacks.push_back(new Attack(playerCenter, m_direction));
+	m_attacks.push_back(new Attack(m_position, m_direction));
 
 	m_attacking = false;
 }
@@ -198,12 +196,10 @@ void Character::flipSprite(bool flipped = false)
 {
 	if (flipped)
 	{
-		m_sprite.setOrigin(SPRITE_SIZE, 0);
 		m_sprite.setScale(-SPRITE_SCALE, SPRITE_SCALE);
 	}
 	else
 	{
-		m_sprite.setOrigin(0, 0);
 		m_sprite.setScale(SPRITE_SCALE, SPRITE_SCALE);
 	}
 }

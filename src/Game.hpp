@@ -3,15 +3,14 @@
 #include <SFML/Graphics.hpp>
 
 #include "Character.hpp"
-#include "Enemy.hpp"
+#include "EnemySpawner.hpp"
 
 #define FPS_FONT_PATH "assets/fonts/Atop-R99O3.ttf"
 
 class Game
 {
 	Character m_character;
-
-	std::vector<Enemy *> m_enemies;
+	EnemySpawner m_enemySpawner;
 
 	// FPS
 
@@ -25,7 +24,9 @@ class Game
 	void check_collisions();
 
 	public:
+		Game() = delete;
 		Game(sf::Window& window);
+		~Game();
 
 		void update(float delta);
 		void render(sf::RenderWindow& window);

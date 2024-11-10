@@ -1,6 +1,6 @@
 #include "Enemy.hpp"
 
-Enemy::Enemy(sf::Vector2f spawnPosition, Character& character) : m_character(character)
+Enemy::Enemy(sf::Vector2f spawnPosition)
 {
 	if (!m_texture.loadFromFile(ENEMY_SPRITE_SHEET_PATH))
 	{
@@ -11,14 +11,15 @@ Enemy::Enemy(sf::Vector2f spawnPosition, Character& character) : m_character(cha
 	// Initialize sprite
 	m_sprite.setTexture(m_texture);
 	m_sprite.setScale(ENEMY_SPRITE_SCALE, ENEMY_SPRITE_SCALE);
+	m_sprite.setOrigin(ENEMY_SPRITE_SIZE / 2, ENEMY_SPRITE_SIZE / 2);
 
 	m_position = spawnPosition;
 }
 
-void Enemy::update(float delta)
+void Enemy::update(float delta, sf::Vector2f targetPosition)
 {
 	// Move towards the player
-	sf::Vector2f direction = m_character.getPosition() - m_position;
+	sf::Vector2f direction = targetPosition - m_position;
 	float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
 
 	if (length == 0)
@@ -35,7 +36,7 @@ void Enemy::update(float delta)
 
 void Enemy::render(sf::RenderWindow& window)
 {
-	m_sprite.setTextureRect(sf::IntRect(0, 0, SPRITE_SIZE, SPRITE_SIZE));
+	m_sprite.setTextureRect(sf::IntRect(0, 0, ENEMY_SPRITE_SIZE, ENEMY_SPRITE_SIZE));
 	m_sprite.setPosition(m_position);
 
 	window.draw(m_sprite);

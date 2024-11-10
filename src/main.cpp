@@ -6,6 +6,8 @@
 
 int main()
 {
+	srand(time(NULL));
+
 	auto window = sf::RenderWindow({1280u, 720u}, "SFML Test");
 	window.setFramerateLimit(144);
 

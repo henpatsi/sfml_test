@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game(sf::Window& window)
+Game::Game(sf::Window& window) : m_enemySpawner(1.0f, window.getSize(), m_character)
 {
 	if (!m_font.loadFromFile(FPS_FONT_PATH))
 	{
@@ -10,21 +10,17 @@ Game::Game(sf::Window& window)
 
 	m_FPSText.setFont(m_font);
 	m_FPSText.setCharacterSize(24);
+}
 
-	m_enemies.push_back(new Enemy(sf::Vector2f(0,0), m_character));
-	m_enemies.push_back(new Enemy(sf::Vector2f(window.getSize().x, 0), m_character));
-	m_enemies.push_back(new Enemy(sf::Vector2f(0, window.getSize().y), m_character));
-	m_enemies.push_back(new Enemy(sf::Vector2f(window.getSize().x, window.getSize().y), m_character));
+Game::~Game()
+{
 }
 
 void Game::update(float delta)
 {
 	m_character.update(delta);
 	
-	for (Enemy* enemy : m_enemies)
-	{
-		enemy->update(delta);
-	}
+	m_enemySpawner.update(delta);
 
 	check_collisions();
 
@@ -38,10 +34,7 @@ void Game::check_collisions()
 
 void Game::render(sf::RenderWindow& window)
 {
-	for (Enemy* enemy : m_enemies)
-	{
-		enemy->render(window);
-	}
+	m_enemySpawner.render(window);
 
 	m_character.render(window);
 
