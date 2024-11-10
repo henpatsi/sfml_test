@@ -54,6 +54,7 @@ class Character
 
 	sf::Font m_font;
 	sf::Text m_staminaText;
+	sf::Text m_healthText;
 
 	// Sprite
 
@@ -110,6 +111,7 @@ class Character
 
 	public:
 		Character(void);
+		~Character();
 
 		void setSprinting(bool sprinting) { m_sprinting = sprinting; }
 

@@ -23,6 +23,21 @@ Character::Character()
 	m_staminaText.setCharacterSize(24);
 	m_staminaText.setFillColor(sf::Color::Green);
 	m_staminaText.setPosition(200, 0);
+
+	// Initialize stamina text
+	m_healthText.setFont(m_font);
+	m_healthText.setCharacterSize(24);
+	m_healthText.setFillColor(sf::Color::Red);
+	m_healthText.setPosition(400, 0);
+	m_healthText.setString("Health: " + std::to_string(m_health));
+}
+
+Character::~Character()
+{
+	for (Attack* attack : m_attacks)
+	{
+		delete attack;
+	}
 }
 
 void Character::update(float delta)
@@ -100,8 +115,11 @@ void Character::damage(int damage)
 	m_health -= damage;
 	if (m_health <= 0)
 	{
+		m_health = 0;
 		m_dead = true;
 	}
+
+	m_healthText.setString("Health: " + std::to_string(m_health));
 
 	m_damageTimer = m_damageCooldown;
 }
@@ -242,6 +260,7 @@ void Character::render(sf::RenderWindow& window)
 	
 	window.draw(m_sprite);
 	window.draw(m_staminaText);
+	window.draw(m_healthText);
 
 	for (Attack* attack : m_attacks)
 	{
