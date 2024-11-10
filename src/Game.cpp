@@ -10,6 +10,12 @@ Game::Game(sf::Window& window) : m_enemySpawner(1.0f, window.getSize(), m_charac
 
 	m_FPSText.setFont(m_font);
 	m_FPSText.setCharacterSize(24);
+
+	m_pauseText.setFont(m_font);
+	m_pauseText.setCharacterSize(128);
+	m_pauseText.setString("PAUSED");
+	m_pauseText.setPosition(window.getSize().x / 2 - m_pauseText.getGlobalBounds().width / 2,
+							window.getSize().y / 2 - m_pauseText.getGlobalBounds().height / 2);
 }
 
 Game::~Game()
@@ -18,6 +24,14 @@ Game::~Game()
 
 void Game::update(float delta)
 {
+	if (m_inputHandler.wasKeyJustPressed("pause"))
+	{
+		togglePause();
+	}
+
+	if (m_paused)
+		return;
+
 	m_character.update(delta);
 	
 	m_enemySpawner.update(delta);
@@ -25,6 +39,11 @@ void Game::update(float delta)
 	check_collisions();
 
 	m_FPSText.setString(std::to_string((int)(1.0f / delta)));
+}
+
+void Game::togglePause()
+{
+	m_paused = !m_paused;
 }
 
 void Game::check_collisions()
@@ -73,5 +92,10 @@ void Game::render(sf::RenderWindow& window)
 	if (m_inputHandler.isKeyPressed("close_game"))
 	{
 		window.close();
+	}
+
+	if (m_paused)
+	{
+		window.draw(m_pauseText);
 	}
 }

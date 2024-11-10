@@ -16,10 +16,13 @@ class Game
 
 	sf::Font m_font;
 	sf::Text m_FPSText;
+	sf::Text m_pauseText;
 
 	// Input
 
 	InputHandler& m_inputHandler = InputHandler::getInstance();
+
+	bool m_paused = false;
 
 	void check_collisions();
 
@@ -27,6 +30,8 @@ class Game
 		Game() = delete;
 		Game(sf::Window& window);
 		~Game();
+
+		void togglePause();
 
 		void update(float delta);
 		void render(sf::RenderWindow& window);

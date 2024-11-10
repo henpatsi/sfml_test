@@ -34,3 +34,16 @@ bool InputHandler::isKeyPressed(std::string key)
 {
 	return m_keyStates[key].isPressed();
 }
+
+bool InputHandler::wasKeyJustPressed(std::string key)
+{
+	return m_keyStates[key].wasJustPressed();
+}
+
+void InputHandler::update()
+{
+	for (auto& key : m_keyStates)
+	{
+		key.second.update();
+	}
+}

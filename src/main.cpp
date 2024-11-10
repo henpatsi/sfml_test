@@ -51,6 +51,8 @@ int main()
 
 		game.update(time_passed.asSeconds());
 
+		m_inputHandler.update();
+
 		window.clear();
 
 		game.render(window);

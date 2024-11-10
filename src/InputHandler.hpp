@@ -21,6 +21,7 @@ class InputHandler
 		{sf::Keyboard::Scan::LShift, {"sprint"}},
 		{sf::Keyboard::Scan::K, {"attack"}},
 		{sf::Keyboard::Scan::Escape, {"close_game"}},
+		{sf::Keyboard::Scan::Space, {"pause"}},
 	};
 
 	std::map<std::string, InputKey> m_keyStates;
@@ -42,4 +43,7 @@ class InputHandler
 		void keyReleased(sf::Event::KeyEvent key);
 
 		bool isKeyPressed(std::string key);
+		bool wasKeyJustPressed(std::string key);
+
+		void update();
 };
