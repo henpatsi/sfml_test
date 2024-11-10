@@ -29,7 +29,37 @@ void Game::update(float delta)
 
 void Game::check_collisions()
 {
-	return;
+	sf::Vector2f characterPosition = m_character.getPosition();
+	float characterCollisionRadius = m_character.getCollisionRadius();
+
+	std::vector<Enemy *>& enemies = m_enemySpawner.getEnemies();
+	std::vector<Attack *>& attacks = m_character.getAttacks();
+
+	for (Enemy *enemy : enemies)
+	{
+		sf::Vector2f enemyPosition = enemy->getPosition();
+		float enemyCollisionRadius = enemy->getCollisionRadius();
+
+		float distance = std::sqrt(std::pow(enemyPosition.x - characterPosition.x, 2) + std::pow(enemyPosition.y - characterPosition.y, 2));
+
+		if (distance < enemyCollisionRadius + characterCollisionRadius)
+		{
+			m_character.damage(enemy->getDamage());
+		}
+
+		for (Attack *attack : attacks)
+		{
+			sf::Vector2f attackPosition = attack->getPosition();
+			float attackCollisionRadius = attack->getCollisionRadius();
+
+			float distance = std::sqrt(std::pow(enemyPosition.x - attackPosition.x, 2) + std::pow(enemyPosition.y - attackPosition.y, 2));
+
+			if (distance < enemyCollisionRadius + attackCollisionRadius)
+			{
+				enemy->damage(attack->getDamage());
+			}
+		}
+	}
 }
 
 void Game::render(sf::RenderWindow& window)

@@ -16,6 +16,16 @@ Enemy::Enemy(sf::Vector2f spawnPosition)
 	m_position = spawnPosition;
 }
 
+void Enemy::damage(int damage)
+{
+	m_health -= damage;
+
+	if (m_health <= 0)
+	{
+		m_dead = true;
+	}
+}
+
 void Enemy::update(float delta, sf::Vector2f targetPosition)
 {
 	// Move towards the player

@@ -32,6 +32,11 @@ void Character::update(float delta)
 	move(delta);
 	attack(delta);
 
+	if (m_damageTimer > 0)
+	{
+		m_damageTimer -= delta;
+	}
+
 	animateSprite(delta);
 }
 
@@ -85,6 +90,20 @@ void Character::attack(float delta)
 	m_attacks.push_back(new Attack(m_position, m_direction));
 
 	m_attacking = false;
+}
+
+void Character::damage(int damage)
+{
+	if (m_damageTimer > 0)
+		return;
+
+	m_health -= damage;
+	if (m_health <= 0)
+	{
+		m_dead = true;
+	}
+
+	m_damageTimer = m_damageCooldown;
 }
 
 // Input

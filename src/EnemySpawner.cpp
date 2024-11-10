@@ -23,9 +23,18 @@ void EnemySpawner::update(float delta)
 {
 	sf::Vector2f targetPosition = m_character.getPosition();
 
-	for (Enemy* enemy : m_enemies)
+	for (auto it = m_enemies.begin(); it != m_enemies.end();)
 	{
-		enemy->update(delta, targetPosition);
+		if ((*it)->shouldDestroy())
+		{
+			delete *it;
+			it = m_enemies.erase(it);
+		}
+		else
+		{
+			(*it)->update(delta, targetPosition);
+			it++;
+		}
 	}
 
 	m_spawnTimer += delta;

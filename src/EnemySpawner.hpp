@@ -23,6 +23,8 @@ class EnemySpawner
 
 		void spawnEnemy(sf::Vector2f position);
 
+		std::vector<Enemy *>& getEnemies() { return m_enemies; }
+
 		void update(float delta);
 		void render(sf::RenderWindow& window);
 };

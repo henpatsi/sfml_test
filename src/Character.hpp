@@ -17,6 +17,12 @@ class Character
 {
 	InputHandler& m_inputHandler = InputHandler::getInstance();
 
+	int m_health = 100;
+	bool m_dead = false;
+	float m_damageTimer = 0.0f;
+	float m_damageCooldown = 1.0f;
+	float m_collisionRadius = SPRITE_SIZE / 4 * SPRITE_SCALE;
+
 	// Movement
 	int m_moveSpeed = 100;
 
@@ -108,6 +114,12 @@ class Character
 		void setSprinting(bool sprinting) { m_sprinting = sprinting; }
 
 		sf::Vector2f getPosition() { return m_position; }
+		float getCollisionRadius() { return m_collisionRadius; }
+
+		std::vector<Attack*>& getAttacks() { return m_attacks; }
+		void damage(int damage);
+		int getHealth() { return m_health; }
+		bool isDead() { return m_dead; }
 
 		void update(float delta);
 		void handleInput();
