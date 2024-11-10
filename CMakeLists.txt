@@ -13,8 +13,8 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(main src/main.cpp src/Game.cpp src/Character.cpp src/InputHandler.cpp src/Attack.cpp)
-target_link_libraries(main PRIVATE sfml-graphics)
+add_executable(main src/main.cpp src/Game.cpp src/Character.cpp src/Enemy.cpp src/InputHandler.cpp src/Attack.cpp)
+target_link_libraries(main PRIVATE sfml-graphics sfml-audio)
 target_compile_features(main PRIVATE cxx_std_17)
 
 if(WIN32)

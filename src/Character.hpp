@@ -107,6 +107,8 @@ class Character
 
 		void setSprinting(bool sprinting) { m_sprinting = sprinting; }
 
+		sf::Vector2f getPosition() { return m_position; }
+
 		void update(float delta);
 		void handleInput();
 		void render(sf::RenderWindow& window);

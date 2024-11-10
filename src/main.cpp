@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio/Music.hpp>
 #include <iostream>
 
 #include "Game.hpp"
@@ -9,15 +10,20 @@ int main()
 	window.setFramerateLimit(144);
 
 	sf::Clock clock;
-	Game game;
+	Game game(window);
 	InputHandler& m_inputHandler = InputHandler::getInstance();
 
-    while (window.isOpen())
-    {
+	sf::Music music;
+	if (!music.openFromFile("./assets/music/Clement_Panchout_Best_Party_Ever_2019.wav"))
+		return -1;
+	music.play();
+
+	while (window.isOpen())
+	{
 		sf::Time time_passed = clock.restart();
 
-        for (auto event = sf::Event(); window.pollEvent(event);)
-        {
+		for (auto event = sf::Event(); window.pollEvent(event);)
+		{
 			switch (event.type)
 			{
 				// window closed
