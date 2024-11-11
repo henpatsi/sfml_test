@@ -24,6 +24,7 @@ class EnemySpawner
 		~EnemySpawner();
 
 		void spawnEnemy(sf::Vector2f position);
+		void removeEnemy(Enemy* enemy);
 
 		int getScore() { return m_score; }
 

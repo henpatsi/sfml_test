@@ -21,7 +21,7 @@ class Character
 	bool m_dead = false;
 	float m_damageTimer = 0.0f;
 	float m_damageCooldown = 1.0f;
-	float m_collisionRadius = SPRITE_SIZE / 4 * SPRITE_SCALE;
+	float m_collisionRadius = SPRITE_SIZE / 6 * SPRITE_SCALE;
 
 	// Movement
 	int m_moveSpeed = 100;
@@ -49,12 +49,6 @@ class Character
 	std::vector<Attack*> m_attacks;
 
 	void attack(float delta);
-
-	// Text
-
-	sf::Font m_font;
-	sf::Text m_staminaText;
-	sf::Text m_healthText;
 
 	// Sprite
 
@@ -119,9 +113,12 @@ class Character
 		float getCollisionRadius() { return m_collisionRadius; }
 
 		std::vector<Attack*>& getAttacks() { return m_attacks; }
-		void damage(int damage);
 		int getHealth() { return m_health; }
 		bool isDead() { return m_dead; }
+		bool isSprinting() { return m_sprinting; }
+		int getStamina() { return m_stamina; }
+
+		void damage(int damage);
 
 		void start();
 		void update(float delta);

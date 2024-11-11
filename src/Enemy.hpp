@@ -35,5 +35,5 @@ class Enemy
 		void render(sf::RenderWindow& window);
 
 		void damage(int damage);
-		bool shouldDestroy() { return m_dead; }
+		bool isDead() { return m_dead; }
 };

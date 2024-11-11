@@ -2,34 +2,23 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "InputHandler.hpp"
 #include "Character.hpp"
 #include "EnemySpawner.hpp"
-
-#define FPS_FONT_PATH "assets/fonts/Atop-R99O3.ttf"
+#include "UI.hpp"
 
 class Game
 {
 	Character m_character;
 	EnemySpawner m_enemySpawner;
 
-	// FPS
+	UI m_UI;
 
-	sf::Font m_font;
-	sf::Text m_FPSText;
-	sf::Text m_pauseText;
-
-	sf::Text m_startText;
-	sf::Text m_controlsText;
-
-	sf::Text m_gameOverText;
-	sf::Text m_scoreText;
+	GameState m_gameState = GameState::MAIN_MENU;
 
 	// Input
 
 	InputHandler& m_inputHandler = InputHandler::getInstance();
-
-	bool m_paused = false;
-	bool m_gameStarted = false;
 
 	void check_collisions();
 

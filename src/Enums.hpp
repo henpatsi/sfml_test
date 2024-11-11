@@ -7,3 +7,11 @@ enum Direction
 	LEFT,
 	RIGHT,
 };
+
+enum GameState
+{
+	MAIN_MENU,
+	GAME,
+	PAUSED,
+	GAME_OVER,
+};

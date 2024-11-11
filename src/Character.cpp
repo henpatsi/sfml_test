@@ -12,24 +12,6 @@ Character::Character()
 	m_sprite.setTexture(m_texture);
 	m_sprite.setScale(SPRITE_SCALE, SPRITE_SCALE);
 	m_sprite.setOrigin(SPRITE_SIZE / 2, SPRITE_SIZE / 2);
-
-	// Initialize stamina text
-	if (!m_font.loadFromFile(STAMINA_FONT_PATH))
-	{
-		std::cout << "Failed to load stamina font" << std::endl;
-		exit(1);
-	}
-	m_staminaText.setFont(m_font);
-	m_staminaText.setCharacterSize(24);
-	m_staminaText.setFillColor(sf::Color::Green);
-	m_staminaText.setPosition(200, 0);
-
-	// Initialize health text
-	m_healthText.setFont(m_font);
-	m_healthText.setCharacterSize(24);
-	m_healthText.setFillColor(sf::Color::Red);
-	m_healthText.setPosition(400, 0);
-	m_healthText.setString("Health: " + std::to_string(m_health));
 }
 
 Character::~Character()
@@ -98,8 +80,6 @@ void Character::move(float delta)
 		m_stamina += m_staminaRegen * delta;
 	}
 
-	m_staminaText.setString("Stamina: " + std::to_string((int)m_stamina));
-
 	m_position += sf::Vector2f(m_horizontalInput * current_speed * delta, m_verticalInput * current_speed * delta);
 }
 
@@ -139,8 +119,6 @@ void Character::damage(int damage)
 		m_health = 0;
 		m_dead = true;
 	}
-
-	m_healthText.setString("Health: " + std::to_string(m_health));
 
 	m_damageTimer = m_damageCooldown;
 }
@@ -280,8 +258,6 @@ void Character::render(sf::RenderWindow& window)
 	m_sprite.setPosition(m_position);
 	
 	window.draw(m_sprite);
-	window.draw(m_staminaText);
-	window.draw(m_healthText);
 
 	for (Attack* attack : m_attacks)
 	{

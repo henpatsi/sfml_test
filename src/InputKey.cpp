@@ -6,7 +6,6 @@ void InputKey::setPressed(bool pressed)
 
 	if (pressed && !m_wasjustpressed)
 	{
-		std::cout << "Key " << m_name << " was just pressed" << std::endl;
 		m_wasjustpressed = true;
 	}
 }
