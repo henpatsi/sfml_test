@@ -24,7 +24,7 @@ Character::Character()
 	m_staminaText.setFillColor(sf::Color::Green);
 	m_staminaText.setPosition(200, 0);
 
-	// Initialize stamina text
+	// Initialize health text
 	m_healthText.setFont(m_font);
 	m_healthText.setCharacterSize(24);
 	m_healthText.setFillColor(sf::Color::Red);
@@ -38,6 +38,27 @@ Character::~Character()
 	{
 		delete attack;
 	}
+}
+
+void Character::start()
+{
+	m_position = { 100, 100 };
+
+	m_health = 100;
+	m_dead = false;
+	m_damageTimer = 0.0f;
+
+	m_stamina = 100;
+	m_sprinting = false;
+	m_horizontalInput = 0;
+	m_verticalInput = 0;
+	m_direction = Direction::DOWN;
+
+	for (Attack* attack : m_attacks)
+	{
+		delete attack;
+	}
+	m_attacks.clear();
 }
 
 void Character::update(float delta)

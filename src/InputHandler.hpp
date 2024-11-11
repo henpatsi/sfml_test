@@ -22,6 +22,7 @@ class InputHandler
 		{sf::Keyboard::Scan::K, {"attack"}},
 		{sf::Keyboard::Scan::Escape, {"close_game"}},
 		{sf::Keyboard::Scan::Space, {"pause"}},
+		{sf::Keyboard::Scan::Enter, {"start_game"}},
 	};
 
 	std::map<std::string, InputKey> m_keyStates;

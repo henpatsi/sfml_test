@@ -9,6 +9,8 @@
 
 class EnemySpawner
 {
+	int m_score = 0;
+
 	float m_spawnTimer;
 	float m_spawnRate;
 	sf::Vector2u m_windowSize;
@@ -23,8 +25,11 @@ class EnemySpawner
 
 		void spawnEnemy(sf::Vector2f position);
 
+		int getScore() { return m_score; }
+
 		std::vector<Enemy *>& getEnemies() { return m_enemies; }
 
+		void start();
 		void update(float delta);
 		void render(sf::RenderWindow& window);
 };

@@ -123,6 +123,7 @@ class Character
 		int getHealth() { return m_health; }
 		bool isDead() { return m_dead; }
 
+		void start();
 		void update(float delta);
 		void handleInput();
 		void render(sf::RenderWindow& window);

@@ -11,7 +11,7 @@
 class Enemy
 {
 	float m_collisionRadius = ENEMY_SPRITE_SIZE / 2 * ENEMY_SPRITE_SCALE;
-	int m_damage = 1;
+	int m_damage = 50;
 
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;

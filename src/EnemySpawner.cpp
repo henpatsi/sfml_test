@@ -19,6 +19,18 @@ void EnemySpawner::spawnEnemy(sf::Vector2f position)
 	m_enemies.push_back(new Enemy(position));
 }
 
+void EnemySpawner::start()
+{
+	m_score = 0;
+	m_spawnTimer = 0.0f;
+
+	for (Enemy* enemy : m_enemies)
+	{
+		delete enemy;
+	}
+	m_enemies.clear();
+}
+
 void EnemySpawner::update(float delta)
 {
 	sf::Vector2f targetPosition = m_character.getPosition();
@@ -29,6 +41,7 @@ void EnemySpawner::update(float delta)
 		{
 			delete *it;
 			it = m_enemies.erase(it);
+			m_score += 1;
 		}
 		else
 		{

@@ -18,11 +18,18 @@ class Game
 	sf::Text m_FPSText;
 	sf::Text m_pauseText;
 
+	sf::Text m_startText;
+	sf::Text m_controlsText;
+
+	sf::Text m_gameOverText;
+	sf::Text m_scoreText;
+
 	// Input
 
 	InputHandler& m_inputHandler = InputHandler::getInstance();
 
 	bool m_paused = false;
+	bool m_gameStarted = false;
 
 	void check_collisions();
 
@@ -33,6 +40,7 @@ class Game
 
 		void togglePause();
 
+		void start();
 		void update(float delta);
 		void render(sf::RenderWindow& window);
 };
